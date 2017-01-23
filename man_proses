@@ -1,0 +1,115 @@
+#!/bin/bash
+
+clear
+echo " ------------------------------------------------------------------------------"
+echo "|Manajemen Proses			 						|"
+echo " ------------------------------------------------------------------------------"
+echo "|Menu : 										|"
+echo "|[1] Tampilkan proses status							|"
+echo "|[2] Tampilkan proses status dengan user						|"
+echo "|[3] Tampilkan proses status dengan user tertentu					|"	
+echo "|[4] $ ps -a									|"				
+echo "|[5] $ ps -au									|"
+echo "|[6] $ ps -aux									|"
+echo "|[7] Menampilkan hubungan proses parent dan child					|"
+echo "|[8] Menampilkan hubungan proses parent dan child serta letak prosesnya		|"
+echo "|[9] $ top									|"
+echo "|[10] $ htop									|"
+echo "|[11] Menampilkan semua proses pada sistem dalam bentuk hirarki parent/child	|"
+echo "|[12] kill									|"
+echo "|[any] exit									|"
+echo " ------------------------------------------------------------------------------"
+read -p "Masukkan Pilihan :" menu
+
+
+# percabangan Menu
+
+if [ $menu -eq 1 ]; then
+	clear 
+	perintah=`ps`
+	echo "$perintah"
+elif [ $menu -eq 2 ]; then
+	clear 
+	perintah=`ps u`
+	echo "$perintah"
+elif [ $menu -eq 3 ]; then
+	clear 
+	read -p "Masukkan user :" user
+	cek_user=`cat /etc/grup`
+	perintah=`ps -u`
+	echo "$perintah $user"
+elif [ $menu -eq 4 ]; then
+	clear 
+	perintah=`ps -a`
+	echo "$perintah"
+elif [ $menu -eq 5 ]; then
+	clear 
+	perintah=`ps -au`
+	echo "$perintah"
+elif [ $menu -eq 6 ]; then
+	clear 
+	perintah=`ps -aux`
+	echo "$perintah"
+elif [ $menu -eq 7 ]; then
+	clear
+ 	perintah=`ps -eH`
+	echo "$perintah"
+elif [ $menu -eq 8 ]; then
+	clear 
+	perintah=`ps -eF`
+	echo "$perintah"
+
+elif [ $menu -eq 9 ]; then
+	clear 
+	perintah=`top`
+	echo "$perintah"
+#ga bisa
+elif [ $menu -eq 10 ]; then
+	clear 
+	echo "pastikan anda terkoneksi internet untuk menampilkan"	
+	instal=`sudo apt-get install htop`
+	echo "$instal"
+	perintah=`htop`
+	echo "$perintah"
+#ga bisa
+
+elif [ $menu -eq 11 ]; then
+	clear 
+	perintah=`pstree`
+	echo "$perintah"
+elif [ $menu -eq 12 ]; then
+	clear 
+	echo "kill berdasarkan"
+		echo "[1] PID"
+		echo "[2] Nomor Job"
+		echo "[3] Nama Programm"
+		echo "[any] exit"
+		read -p "Masukkan Pilihan :" pilih
+
+		if [ $pilih -eq 1 ]; then
+			clear
+			read -p "Masukkan No PID :" no1
+			perintah=`kill`
+			echo "$perintah $no1"
+		elif [ $pilih -eq 2 ]; then
+			clear
+			read -p "Masukkan No Job :" no2
+			perintah=`kill %`
+			echo "$perintah $no2"
+		elif [ $pilih -eq 3 ]; then
+			clear
+			read -p "Masukkan Nama Programm :" nama
+			read -p "kill $nama semua[1/0] :" konfirmasi
+			if [ $konfirmasi -eq 1 ]; then  
+				perintah=`pkillall`
+				echo "$perintah $nama"
+			#belum bisa
+			elif [ $konfirmasi -eq 0 ]; then
+				perintah=`pkill`
+				echo "$perintah $nama"
+			#belum bisa
+			fi
+		fi	
+fi
+
+exit 0
